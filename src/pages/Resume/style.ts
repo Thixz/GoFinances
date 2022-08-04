@@ -38,7 +38,7 @@ width: 90%;
 align-items: center;
 `
 
-export const MonthSelect = styled.View`
+export const MonthSelect = styled(GestureHandlerRootView)`
 width: 100%;
 flex-direction: row;
 justify-content: space-between;
@@ -55,4 +55,10 @@ font-size: ${RFValue(24)}px;
 export const Month = styled.Text`
 font-family: ${({theme}) => theme.fonts.regular};
 font-size: ${RFValue(20)}px;
+`
+
+export const LoadContainer = styled.View`
+flex:1;
+justify-content: center;
+align-items: center;
 `

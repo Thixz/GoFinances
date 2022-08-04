@@ -2,6 +2,7 @@ import "react-native-gesture-handler";
 import 'intl';
 import 'intl/locale-data/jsonp/pt-BR';
 import React from "react";
+import { StatusBar } from "react-native";
 import { ThemeProvider } from "styled-components";
 import {
   useFonts,
@@ -15,8 +16,12 @@ import { LogBox } from "react-native";
 import { Register } from "./src/pages/Register";
 import theme from "./src/global/styles/theme";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { Routes } from "./src/routes";
 import { AppRouter } from "./src/routes/app.routes";
+
+import { SigIn } from "./src/pages/SigIn";
+
+import { AuthProvider, useAuth } from "./src/hooks/auth";
 
 export default function App() {
   const [fontsLoaded] = useFonts({
@@ -25,19 +30,22 @@ export default function App() {
     Poppins_700Bold,
   });
 
+  const {userStorageLoading} = useAuth()
+
   LogBox.ignoreLogs([
     "ViewPropTypes will be removed from React Native. Migrate to ViewPropTypes exported from 'deprecated-react-native-prop-types'.",
   ]);
 
-  if (!fontsLoaded) {
+  if (!fontsLoaded || userStorageLoading) {
     return <AppLoading />;
   }
 
   return (
     <ThemeProvider theme={theme}>
-      <NavigationContainer>
-        <AppRouter />
-      </NavigationContainer>
+        <StatusBar barStyle={'light-content'}/>
+        <AuthProvider>
+        <Routes />
+        </AuthProvider>
     </ThemeProvider>
   );
 }
